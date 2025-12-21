@@ -115,3 +115,27 @@ O objetivo é simular um **primeiro lançamento de um objeto (bola)**, permitind
 - O servo da garra utiliza valores afastados de 90º para definir a velocidade de abertura/fecho.
 
 **Objetivo:** Testar a **integração completa** do braço robótico, avaliando a coordenação entre motores e garra antes de implementar sequências mais complexas.
+
+
+### `integr_2.ino` – Segunda Aplicação Integrada (Comandos Seriais)
+
+Este sketch permite controlar o braço robótico através de **comandos seriais**, tornando o uso mais **intuitivo e user-friendly**.
+
+**Funcionalidades:**
+- Rodar o motor da base (M1) para um ângulo específico:
+R<angulo>
+Ex.: `R120` roda a base 120°.
+- Executar um lançamento simulado (movimento coordenado de M2 + garra):
+L
+
+**Características importantes:**
+- Motor da base com **redutor 1:20**, motor intermédio (M2) sem redutor.
+- Garra controlada por **servo**, com posições predefinidas: aberta, fechada parcial e neutra.
+- Movimentos executados **sequencialmente** para garantir suavidade e força suficiente.
+
+**Como usar:**
+1. Abrir o *Serial Monitor** da Arduino IDE a 115200 bps.
+2. Enviar comandos `"R<angulo>"` ou `"L"` para controlar o braço.
+3. Ajustar parâmetros no sketch se necessário (velocidade RPM, pinos, posições da garra).
+
+> Nota: Esta aplicação permite ao utilizador executar movimentos complexos apenas com **comandos simples**, sem necessidade de gerir manualmente cada motor.
