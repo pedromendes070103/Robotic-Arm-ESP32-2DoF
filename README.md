@@ -52,3 +52,23 @@ O controlo principal é feito via **comunicação série** com o PC, permitindo 
 - O movimento é realizado em malha aberta, sem controlo de posição absoluto.
 
 Este ficheiro é destinado a testes e validação do controlo básico de motores stepper no contexto do braço robótico.
+
+### 3. `stepper_red`
+Este sketch permite testar um motor stepper **com redutor 1:20**, considerando explicitamente a relação de redução no cálculo do número de passos e da velocidade do motor.
+
+**Funcionalidades:**
+- Configuração dos **pinos STEP, DIR e ENABLE**.
+- Definição do **ângulo de rotação à saída do redutor**.
+- Definição da **velocidade desejada à saída (RPM)**.
+- Conversão automática para:
+  - Número de passos do motor.
+  - Velocidade real do motor antes do redutor.
+
+**Notas importantes:**
+- O parâmetro `stepsPerRev` refere-se ao **motor stepper** (200 passos/volta).
+- O parâmetro `gearRatio` define a relação do redutor (neste caso, 1:20).
+- A velocidade do motor é calculada como:
+RPM_motor = RPM_saida × gearRatio
+- O controlo é feito por **tempo de ativação dos impulsos STEP**, não por realimentação de posição.
+
+Este código destina-se principalmente à **validação do comportamento cinemático** do conjunto motor + redutor.
