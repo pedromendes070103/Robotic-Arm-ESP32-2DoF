@@ -3,6 +3,25 @@
 Este repositório contém vários sketches e scripts para controlar um braço robótico, incluindo movimentação de motores passo a passo e controlo de servos.
 O projeto foi desenvolvido no âmbito da unidade curricular **Técnicas de Prototipagem Rápida** da **Universidade de Aveiro**.
 
+## Pré-requisitos
+
+Antes de carregar os sketches no ESP32, é necessário garantir que o ambiente de desenvolvimento está corretamente configurado:
+
+1. **Arduino IDE**: instalar a versão mais recente.
+2. **Placa ESP32**:
+   - Adicionar o link da board ESP32 no gestor de URLs adicionais da Arduino IDE:
+     ```
+     https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+     ```
+   - Abrir o Gestor de Placas e instalar **ESP32 by Espressif Systems**.
+3. **Bibliotecas necessárias**:
+   - `ESP32Servo` (para controlo do servo da garra)
+   - `WiFi` (se necessário para futuras funcionalidades)
+   - `BluetoothSerial` (se necessário para controlo via Bluetooth)
+4. **Configuração dos pinos**: verificar os pinos definidos nos sketches (`stepPin`, `dirPin`, `enablePin`, `servoPin`) e ajustá-los ao teu protótipo.
+
+> Nota: As instruções acima são comuns a todos os sketches deste repositório (`servo_teste.ino`, `stepper.ino`, `stepper_red.ino`, `first_integration.ino`).
+
 ## Estrutura dos Ficheiros
 
 ### 1. `servo_teste`
@@ -72,3 +91,27 @@ RPM_motor = RPM_saida × gearRatio
 - O controlo é feito por **tempo de ativação dos impulsos STEP**, não por realimentação de posição.
 
 Este código destina-se principalmente à **validação do comportamento cinemático** do conjunto motor + redutor.
+
+### 4. `first_integration.ino`
+Este sketch realiza uma **primeira aplicação integrada**, coordenando os motores stepper da base e da articulação intermédia com o servo da garra.  
+O objetivo é simular um **primeiro lançamento de um objeto (bola)**, permitindo validar a coerência cinemática e o comportamento do sistema completo.
+
+**Funcionalidades:**
+- Motor stepper da **base** com redutor 1:20.
+- Motor stepper da **articulação intermédia** (sem redutor).
+- Servo da **garra** para abrir e fechar o objeto.
+- Movimentos sequenciais predefinidos:
+  1. Rotação da base +90°.
+  2. Fecho parcial da garra.
+  3. Rotação da articulação +96°.
+  4. Abertura da garra.
+  5. Retorno às posições iniciais.
+- Velocidade dos motores definida em RPM à saída, convertida internamente para velocidade real do motor.
+- Temporizações ajustadas de acordo com as especificações do driver, garantindo operação fiável.
+
+**Notas importantes:**
+- O código utiliza **malha aberta**, sem realimentação de posição.
+- O movimento do motor da base considera o **redutor 1:20** no cálculo dos passos.
+- O servo da garra utiliza valores afastados de 90º para definir a velocidade de abertura/fecho.
+
+**Objetivo:** Testar a **integração completa** do braço robótico, avaliando a coordenação entre motores e garra antes de implementar sequências mais complexas.
