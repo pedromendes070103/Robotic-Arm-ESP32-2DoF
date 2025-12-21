@@ -17,7 +17,8 @@ Antes de carregar os sketches no ESP32, é necessário garantir que o ambiente d
 3. **Bibliotecas necessárias**:
    - `ESP32Servo` (para controlo do servo da garra)
    - `WiFi` (se necessário para futuras funcionalidades)
-   - `BluetoothSerial` (se necessário para controlo via Bluetooth)
+   - `BLEDevice`,`BLEUtils` e `BLEServer`  (se necessário para controlo via Bluetooth)
+   - 
 4. **Configuração dos pinos**: verificar os pinos definidos nos sketches (`stepPin`, `dirPin`, `enablePin`, `servoPin`) e ajustá-los ao teu protótipo.
 
 > Nota: As instruções acima são comuns a todos os sketches deste repositório (`servo_teste.ino`, `stepper.ino`, `stepper_red.ino`, `first_integration.ino`).
@@ -117,7 +118,7 @@ O objetivo é simular um **primeiro lançamento de um objeto (bola)**, permitind
 **Objetivo:** Testar a **integração completa** do braço robótico, avaliando a coordenação entre motores e garra antes de implementar sequências mais complexas.
 
 
-### `integr_2.ino` – Segunda Aplicação Integrada (Comandos Seriais)
+### 5. `integr_2.ino` – Segunda Aplicação Integrada (Comandos Seriais)
 
 Este sketch permite controlar o braço robótico através de **comandos seriais**, tornando o uso mais **intuitivo e user-friendly**.
 
@@ -139,3 +140,42 @@ L
 3. Ajustar parâmetros no sketch se necessário (velocidade RPM, pinos, posições da garra).
 
 > Nota: Esta aplicação permite ao utilizador executar movimentos complexos apenas com **comandos simples**, sem necessidade de gerir manualmente cada motor.
+
+### 6. `ble_LightBlue.ino`
+
+Este sketch implementa uma adaptação da segunda aplicação integrada para permitir o **controlo do braço robótico via Bluetooth Low Energy (BLE)**. É compatível com aplicações como o LightBlue no smartphone.
+
+**Funcionalidades:**
+- Receção de comandos simples pelo BLE:
+  - `"R<angulo>"` → roda o motor da base (M1) para o ângulo especificado.
+  - `"L"` → executa a sequência de lançamento (movimento do motor intermédio M2 + garra).
+  - `"RESET"` → retorna a garra à posição neutra.
+- Coordenação sequencial de motores e garra para garantir movimentos suaves e controlados.
+- Utiliza as bibliotecas `BLEDevice.h`, `BLEUtils.h` e `BLEServer.h` para criar o servidor BLE e gerir características e callbacks.
+
+**Observações:**
+- Antes de carregar o sketch, certifique-se de ter instalado as bibliotecas necessárias no Arduino IDE.
+- Este sketch permite ao utilizador controlar o braço remotamente, mantendo a lógica já testada na aplicação integrada anterior (`integr_2.ino`).
+
+### 7. `wifi.ino` – Controlo via WiFi
+
+Esta aplicação permite controlar o braço robótico através de uma **página web** acessível a partir de qualquer dispositivo ligado à rede WiFi criada pelo ESP32.  
+
+**Funcionalidades:**
+- Criação de um ponto de acesso WiFi próprio (`ESP32_ROBOT`), permitindo ligação de smartphones, tablets ou PCs.
+- Controlo do **motor da base (M1)** para um ângulo específico, introduzido pelo utilizador.
+- Execução de um **lançamento simulado**, envolvendo o motor intermédio (M2) e a garra.
+- **Reset da garra** para a posição de parada.
+- Interface web intuitiva, com campos de input e botões para envio de comandos.
+
+**Exemplo de uso:**
+1. Ligar à rede WiFi `ESP32_ROBOT` com a password `12345678`.
+2. Abrir o navegador e aceder ao endereço `192.168.4.1`.
+3. Inserir o ângulo desejado para M1 e clicar em **Rotate M1**, ou clicar em **Launch** para executar o lançamento.
+4. Clicar em **Reset** para reposicionar a garra.
+
+**Observações técnicas:**
+- Antes de carregar o sketch, certifique-se de ter instalado as bibliotecas necessárias no Arduino IDE.
+- O ESP32 atua como servidor web e processa os comandos sequencialmente, garantindo movimentos controlados e repetíveis.
+- O tempo de execução e a velocidade dos motores são calculados automaticamente pelo código com base na rotação desejada e na relação de redução (gear ratio).
+
