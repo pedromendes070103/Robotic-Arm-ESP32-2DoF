@@ -179,7 +179,7 @@ Esta aplicação permite controlar o braço robótico através de uma **página 
 - O ESP32 atua como servidor web e processa os comandos sequencialmente, garantindo movimentos controlados e repetíveis.
 - O tempo de execução e a velocidade dos motores são calculados automaticamente pelo código com base na rotação desejada e na relação de redução (gear ratio).
 
-## 8. `onlyreeds.ino`
+### 8. `onlyreeds.ino`
 
 Este sketch permite que se garanta o correto funcionamento do sistema de homing, testando os reed switches para cada motor e para a garra.
 
