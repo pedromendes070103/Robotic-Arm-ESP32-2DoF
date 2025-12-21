@@ -179,3 +179,21 @@ Esta aplicação permite controlar o braço robótico através de uma **página 
 - O ESP32 atua como servidor web e processa os comandos sequencialmente, garantindo movimentos controlados e repetíveis.
 - O tempo de execução e a velocidade dos motores são calculados automaticamente pelo código com base na rotação desejada e na relação de redução (gear ratio).
 
+## 8. `onlyreeds.ino`
+
+Este sketch permite que se garanta o correto funcionamento do sistema de homing, testando os reed switches para cada motor e para a garra.
+
+**Sensores utilizados (KMS-30):**
+- Reed switch para a garra (fim de abertura)
+- Reed switch para o motor intermédio (M2)
+- Reed switch para o motor da base (M1)
+
+**Descrição do teste:**
+- Cada reed switch está ligado com uma extremidade a 3.3V e a outra ao GPIO do ESP32 configurado como `INPUT_PULLUP` a ao GND.
+- Ao aproximar um íman do sensor, o estado do pino muda, permitindo detetar a posição “home” ou “fim de curso”.
+- Durante os testes, a aplicação imprime no Serial Monitor quando cada sensor é DETETADO ou LIVRE.
+- Pequeno delay de 20 ms incluído para debounce e evitar spam de mensagens.
+
+**Observação:** Alguns sensores podem apresentar lógica inversa, dependendo das características do reed switch (NO/NC). Ajustes no código podem ser necessários para interpretar corretamente os estados.
+
+
