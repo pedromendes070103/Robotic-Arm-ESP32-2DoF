@@ -1,6 +1,7 @@
 # Projeto de Controlo de Braço Robótico com ESP32
 
 Este repositório contém vários sketches e scripts para controlar um braço robótico, incluindo movimentação de motores passo a passo e controlo de servos.
+O projeto foi desenvolvido no âmbito da cadeira **Técnicas de Prototipagem Rápida** da **Universidade de Aveiro**.
 
 ## Estrutura dos Ficheiros
 
