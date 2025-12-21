@@ -118,7 +118,7 @@ O objetivo é simular um **primeiro lançamento de um objeto (bola)**, permitind
 **Objetivo:** Testar a **integração completa** do braço robótico, avaliando a coordenação entre motores e garra antes de implementar sequências mais complexas.
 
 
-### 5. `integr_2.ino` – Segunda Aplicação Integrada (Comandos Seriais)
+### 5. `integr_2.ino`
 
 Este sketch permite controlar o braço robótico através de **comandos seriais**, tornando o uso mais **intuitivo e user-friendly**.
 
@@ -157,7 +157,7 @@ Este sketch implementa uma adaptação da segunda aplicação integrada para per
 - Antes de carregar o sketch, certifique-se de ter instalado as bibliotecas necessárias no Arduino IDE.
 - Este sketch permite ao utilizador controlar o braço remotamente, mantendo a lógica já testada na aplicação integrada anterior (`integr_2.ino`).
 
-### 7. `wifi.ino` – Controlo via WiFi
+### 7. `wifi.ino`
 
 Esta aplicação permite controlar o braço robótico através de uma **página web** acessível a partir de qualquer dispositivo ligado à rede WiFi criada pelo ESP32.  
 
