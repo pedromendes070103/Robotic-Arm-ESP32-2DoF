@@ -196,4 +196,48 @@ Este sketch permite que se garanta o correto funcionamento do sistema de homing,
 
 **Observação:** Alguns sensores podem apresentar lógica inversa, dependendo das características do reed switch (NO/NC). Ajustes no código podem ser necessários para interpretar corretamente os estados.
 
+### 9. `homing_stepper_red.ino`
+
+Este sketch implementa o processo de *homing* para o motor da base equipado com um redutor 1:20, recorrendo a um reed switch como sensor de referência de posição.
+
+**Descrição do funcionamento:**
+- O motor inicia o movimento numa direção predefinida (`HOMING_DIR`) a baixa velocidade, adequada ao processo de homing.
+- Durante a rotação, o estado do reed switch é monitorizado continuamente.
+- Quando o sensor é ativado pelo íman, a posição *home* é identificada e o processo de homing termina com sucesso.
+- Caso o sensor não seja detetado após uma rotação máxima de 360°, o motor inverte o sentido e regressa à posição inicial, sinalizando falha no processo de homing.
+- Após o homing, o sistema fica pronto para receber comandos via porta série.
+
+**Comandos disponíveis (Serial Monitor):**
+- `R<ângulo>` — Move o motor da base o número de graus indicado, respeitando o sentido de rotação e interrompendo o movimento caso o reed switch seja novamente ativado.
+- `V<valor>` — Atualiza a velocidade de rotação do motor (RPM de saída).
+
+**Notas importantes:**
+- O reed switch é ligado ao GPIO do ESP32 com configuração `INPUT_PULLUP`.
+- O cálculo do número de passos considera o redutor de 1:20, garantindo coerência entre rotação do motor e rotação efetiva do eixo.
+- O algoritmo atual identifica corretamente a posição *home*, mas não mantém ainda um registo absoluto da posição angular, o que constitui uma melhoria futura identificada.
+
+### 10. `homing_servo.ino`
+
+Este sketch implementa a **deteção do fim de abertura da garra** recorrendo a um **reed switch**, garantindo uma operação segura e repetível.
+
+**Sensor utilizado:**
+- Reed switch KMS-30 colocado na posição de abertura máxima da garra.
+- Ligação ao ESP32 através de um GPIO configurado como `INPUT_PULLUP`.
+- O estado `HIGH` indica que o íman está presente, correspondendo ao fim de curso.
+
+**Descrição do funcionamento:**
+- A garra inicia o movimento de abertura.
+- Durante a abertura, o estado do reed switch é monitorizado continuamente.
+- O movimento é interrompido quando:
+  - O reed switch é ativado (fim de abertura), ou
+  - É atingido um tempo máximo de abertura (*timeout*), prevenindo bloqueios ou falhas mecânicas.
+- Após a deteção do fim de curso (ou timeout), o sistema:
+  - Para o servo,
+  - Executa um fecho ligeiro temporizado,
+  - Retoma o ciclo normal de operação.
+
+**Mecanismos de segurança:**
+- Utilização de *timeout* para evitar funcionamento indefinido do atuador.
+- Monitorização contínua do sensor durante o movimento.
+- Paragem explícita do servo entre transições de estado.
 
